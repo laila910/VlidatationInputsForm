@@ -30,12 +30,12 @@ function ValidEmail($email){
      $email =CleanInputs($_POST["email"]);  
      $password =CleanInputs($_POST["password"]);
      $AccountOfLinkedIn=$_POST["account"];
-     if($_POST["submit"]){
+     
      if(validEmail($email)=="Valid Email"){
 
         echo 'your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
      }
-    }
+    
 
  }
                     
