@@ -27,7 +27,8 @@ function ValidEmail($email){
 }
 function ValidURL($AccountOfLinkedIn){
     if(!empty( $AccountOfLinkedIn)){
-        
+         $AccountOfLinkedIn=trim($AccountOfLinkedIn);
+         $AccountOfLinkedIn=htmlspecialchars($AccountOfLinkedIn);
     if(!filter_var( $AccountOfLinkedIn,FILTER_VALIDATE_URL)){
         $s_URL = filter_var($AccountOfLinkedIn,FILTER_SANITIZE_URL);
         if(!filter_var($s_URL,FILTER_VALIDATE_URL)){
@@ -47,7 +48,12 @@ function ValidURL($AccountOfLinkedIn){
  if($_SERVER['REQUEST_METHOD']=="POST"){
     
      $email =CleanInputs($_POST["email"]);  
+     if(!empty($password)){
      $password =CleanInputs($_POST["password"]);
+     }
+     else{
+         echo 'Plese enter your password '; 
+     }
      $AccountOfLinkedIn=$_POST["account"];
      
      if(validEmail($email)=="Valid Email"){
