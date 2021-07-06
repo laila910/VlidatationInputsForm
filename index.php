@@ -1,19 +1,20 @@
  <?php 
-
+function CleanInputs($input)
+{ 
+    $input=trim($input);
+    $input=stripcslashes($input);
+    $input=htmlspecialchars($input);
+    return $input; 
+}
  if($_SERVER['REQUEST_METHOD']=="POST"){
     
-     $email =$_POST["email"];
-     $password =$_POST["password"];
+     $email =CleanInputs($_POST["email"]);
+     
+     $password =CleanInputs($_POST["password"]);
      $AccountOfLinkedIn=$_POST["account"];
-     if(str_word_count($name)<0){
-         
-         echo"error Please enter your name";
-         
-     
-     } else {
+
         echo 'your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
-     }
-     
+
  }
                     
   ?>
