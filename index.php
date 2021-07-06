@@ -63,17 +63,13 @@ function validpass($password){
           if(((validURL($AccountOfLinkedIn)=="Valid URL")||(validpass($password)=="Valid password"))){
                if((validpass($password)=="Valid password")){
               
-        
          
-       
-       
-              
-          if((validEmail($email)=="Valid Email")&&((validURL($AccountOfLinkedIn)=="Valid URL")&&(validpass($password)=="Valid password"))){
               
 
            
-        echo '<br>your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
-          
+        
+        }else{
+              echo '<br>your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
         }
     }
 }
@@ -83,7 +79,7 @@ function validpass($password){
     
 }
 
- }
+ 
 
                     
   ?>
