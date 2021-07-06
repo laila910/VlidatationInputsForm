@@ -6,14 +6,36 @@ function CleanInputs($input)
     $input=htmlspecialchars($input);
     return $input; 
 }
+function ValidEmail($email){
+    if(!empty($email)){
+        
+    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+        $s_email = filter_var($email,FILTER_SANITIZE_EMAIL);
+        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+            echo 'Note: You can use this email'.' '.$s_email;
+              
+          }
+        
+    }else{
+        return 'Valid Email';
+        
+    }
+}else{
+    echo 'Note : Please Enter Your Email!';
+}
+    
+}
  if($_SERVER['REQUEST_METHOD']=="POST"){
     
-     $email =CleanInputs($_POST["email"]);
-     
+     $email =CleanInputs($_POST["email"]);  
      $password =CleanInputs($_POST["password"]);
      $AccountOfLinkedIn=$_POST["account"];
+     if($_POST["submit"]){
+     if(validEmail($email)=="Valid Email"){
 
         echo 'your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
+     }
+    }
 
  }
                     
