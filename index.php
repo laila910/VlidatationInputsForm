@@ -21,7 +21,7 @@ function ValidEmail($email){
         
     }
 }else{
-    echo 'Note : Please Enter Your Email!';
+    echo '<br>Note : Please Enter Your Email!';
 }
     
 }
@@ -32,7 +32,7 @@ function ValidURL($AccountOfLinkedIn){
     if(!filter_var( $AccountOfLinkedIn,FILTER_VALIDATE_URL)){
         $s_URL = filter_var($AccountOfLinkedIn,FILTER_SANITIZE_URL);
         if(!filter_var($s_URL,FILTER_VALIDATE_URL)){
-            echo 'Note: You can use this URL'.' '.$s_URL;
+            echo '<br>Note:YOUR url is not valid Please try this'.' '.$s_URL;
               
           }
         
@@ -44,23 +44,27 @@ function ValidURL($AccountOfLinkedIn){
     echo 'Note : Please Enter Your URL!';
 }
 }
-    
+function validpass($password){
+        if(empty($password)){
+            echo 'please enter your Password!';
+        }else{
+            return 'Valid Password';
+        }
+ }
+ 
  if($_SERVER['REQUEST_METHOD']=="POST"){
     
      $email =CleanInputs($_POST["email"]);  
-     if(!empty($password)){
-     $password =CleanInputs($_POST["password"]);
-     }
-     else{
-         echo 'Plese enter your password '; 
-     }
+     $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
      
-     if(validEmail($email)=="Valid Email"){
-           if(validURL($AccountOfLinkedIn)=="Valid Email"){
+     if(((validEmail($email)=="Valid Email")&&(validURL($AccountOfLinkedIn)=="Valid URL"))&&(validpass($password)=="Valid password")){
+         
 
-        echo 'your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
-     }
+           
+        echo '<br>your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
+                
+     
     }
     
 
