@@ -46,7 +46,7 @@ function ValidURL($AccountOfLinkedIn){
 }
 function validpass($password){
         if(empty($password)){
-            echo 'please enter your Password!';
+            echo '<br>please enter your Password!';
         }else{
             return 'Valid Password';
         }
@@ -58,17 +58,33 @@ function validpass($password){
      $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
      
-     if(((validEmail($email)=="Valid Email")&&(validURL($AccountOfLinkedIn)=="Valid URL"))&&(validpass($password)=="Valid password")){
+     if((validEmail($email)=="Valid Email")||(validURL($AccountOfLinkedIn)=="Valid URL")||(validpass($password)=="Valid password")){
+       
+          if(((validURL($AccountOfLinkedIn)=="Valid URL")||(validpass($password)=="Valid password"))){
+               if((validpass($password)=="Valid password")){
+              
+        
          
+       
+       
+              
+          if((validEmail($email)=="Valid Email")&&((validURL($AccountOfLinkedIn)=="Valid URL")&&(validpass($password)=="Valid password"))){
+              
 
            
         echo '<br>your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
-                
-     
+          
+        }
     }
+}
+        
     
+     
+    
+}
 
  }
+
                     
   ?>
  <!DOCTYPE html>
