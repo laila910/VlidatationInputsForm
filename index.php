@@ -15,6 +15,16 @@ function CleanInputs($input)
      $email =CleanInputs($_POST["email"]);  
      $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
+     //check the file 
+     if(!empty($_FILES['uploadedFile']['name'])){ //check if the file is uploded or not
+        $PathOfTemp = $_FILES['uploadedFile']['tmp_name']; //path of temp is the name of the file when is uploaded and is putted in the temp folder in the server 
+        $name = $_FILES['uploadedFile']['name']; //the Original name of the file that is in the user's Device. Note: the name is sent and included the extension of the uploaded file
+        $sizeOfTheFile = $_FILES['uploadedFile']['size']; 
+        $type = $_FILES['uploadedFile']['type'];//the type of the uploaded file 
+         
+     }else{
+            $errorMessages['file'] = 'error your file is required please uploaded it!';
+     }
      
      // Name Validation ...
         if(!empty($name)){
@@ -131,7 +141,7 @@ function CleanInputs($input)
                  </div>
                  <div class="form-group">
                      <label for="exampleInputEmail1">Enter your Cv</label>
-                     <input type="file" name="name" id="exampleInputName" aria-describedby="">
+                     <input type="file" name="uploadedFile" id=" exampleInputName" aria-describedby="">
                  </div>
 
                  <button type="submit" class="btn btn-primary">Submit</button>
