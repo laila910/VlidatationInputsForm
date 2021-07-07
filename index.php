@@ -9,40 +9,21 @@ function CleanInputs($input)
     return $input; 
 }
 
-
-function ValidURL($AccountOfLinkedIn){
-    if(!empty( $AccountOfLinkedIn)){
-         $AccountOfLinkedIn=trim($AccountOfLinkedIn);
-         $AccountOfLinkedIn=htmlspecialchars($AccountOfLinkedIn);
-    if(!filter_var( $AccountOfLinkedIn,FILTER_VALIDATE_URL)){
-        $s_URL = filter_var($AccountOfLinkedIn,FILTER_SANITIZE_URL);
-        if(!filter_var($s_URL,FILTER_VALIDATE_URL)){
-            echo '<br>Note:YOUR url is not valid Please try this'.' '.$s_URL;
-              
-          }
-        
-    }else{
-        return 'Valid URL';
-        
-    }
-}else{
-    echo 'Note : Please Enter Your URL!';
-}
-}
-function validpass($password){
-        if(empty($password)){
-            echo '<br>please enter your Password!';
-        }else{
-            return 'Valid Password';
-        }
- }
-
  if($_SERVER['REQUEST_METHOD']=="POST"){
      
      $name =CleanInputs($_POST["name"]);  
      $email =CleanInputs($_POST["email"]);  
      $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
+     
+     // Name Validation ...
+        if(!empty($name)){
+           if(strlen($name) < 3){
+              $errorMessages['name'] = "Name Length must be > 2 "; 
+             }
+        }else{
+          $errorMessages['name'] = " your Name is Required!";
+        }
      //check the email
        if(!empty($email)){
         
@@ -53,17 +34,43 @@ function validpass($password){
               
                     }
         
-             }else{
-                      return $email;
-        
-                  }
+             }
         }else{
                   $errorMessages['email'] = 'error Email Required!';
             }
-     
+    // Password Validation ... 
+        if(!empty($password)){
+            if(strlen($password) < 6){
+
+               $errorMessages['Password'] = "Password Length must be > 5 "; 
+            }
+
+        }else{
+
+          $errorMessages['Password'] = " your Password Required";
+
+        }
+    // account Validation
+    if(!empty( $AccountOfLinkedIn)){
+         $AccountOfLinkedIn=trim($AccountOfLinkedIn);
+         $AccountOfLinkedIn=htmlspecialchars($AccountOfLinkedIn);
+        if(!filter_var( $AccountOfLinkedIn,FILTER_VALIDATE_URL)){
+             $s_URL = filter_var($AccountOfLinkedIn,FILTER_SANITIZE_URL);
+              if(!filter_var($s_URL,FILTER_VALIDATE_URL)){
+                  $errorMessages['url_account'] = 'error your URl is not valid! ';
+              
+              }
+        
+        }
+    }else{
+      $errorMessages['url_account'] = 'error URL is Required!';
+}
+    
+    
+     //print the result 
      
      if(count($errorMessages) == 0){
-
+       //form is valid then print the data 
         echo 'your name is : '.$name.'<br> your email is :'.$email.'<br> your password is:'.$password.'<br> your LinkedIn Account is:'.$AccountOfLinkedIn;
      }else{
 
@@ -78,18 +85,13 @@ function validpass($password){
 }
         
     
-     
-    
-
- 
-
                     
   ?>
  <!DOCTYPE html>
  <html lang="en">
 
      <head>
-         <title>Register</title>
+         <title>ValidationForm</title>
          <meta charset="utf-8">
          <meta name="viewport" content="width=device-width, initial-scale=1">
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -100,36 +102,37 @@ function validpass($password){
      <body>
 
          <div class="container">
-             <h2>Vertical (basic) form</h2>
+             <h2> Form</h2>
              <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
                  enctype="multipart/form-data">
 
                  <div class="form-group">
-                     <label for="exampleInputEmail1">Name</label>
+                     <label for="exampleInputEmail1">Enter your Name</label>
                      <input type="text" name="name" class="form-control" id="exampleInputName" aria-describedby=""
                          placeholder="Enter Name">
                  </div>
 
 
                  <div class="form-group">
-                     <label for="exampleInputEmail1">Email address</label>
+                     <label for="exampleInputEmail1">Enter your Email</label>
                      <input type="email" name="email" class="form-control" id="exampleInputEmail1"
                          aria-describedby="emailHelp" placeholder="Enter email">
                  </div>
 
                  <div class="form-group">
-                     <label for="exampleInputPassword1">New Password</label>
+                     <label for="exampleInputPassword1">Enter your Password</label>
                      <input type="password" name="password" class="form-control" id="exampleInputPassword1"
                          placeholder="Password">
                  </div>
-
-
                  <div class="form-group">
-                     <label for="exampleInputPassword1">Birth Date</label>
-                     <input type="date" name="Bdate" class="form-control">
+                     <label for="exampleInputPassword1">Please enter your LinkedIn account </label>
+                     <input type="url" name=" account" class="form-control" id="exampleInputPassword1"
+                         placeholder="https://www.linkedIn.com/">
                  </div>
-
-
+                 <div class="form-group">
+                     <label for="exampleInputEmail1">Enter your Cv</label>
+                     <input type="file" name="name" id="exampleInputName" aria-describedby="">
+                 </div>
 
                  <button type="submit" class="btn btn-primary">Submit</button>
              </form>
