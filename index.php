@@ -1,4 +1,6 @@
  <?php 
+  $errorMessages=array(); //associative array to carry the errors during check the validation 
+  
 function CleanInputs($input)
 { 
     $input=trim($input);
@@ -6,25 +8,8 @@ function CleanInputs($input)
     $input=htmlspecialchars($input);
     return $input; 
 }
-function ValidEmail($email){
-    if(!empty($email)){
-        
-    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-        $s_email = filter_var($email,FILTER_SANITIZE_EMAIL);
-        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-            echo 'Note: You can use this email'.' '.$s_email;
-              
-          }
-        
-    }else{
-        return 'Valid Email';
-        
-    }
-}else{
-    echo '<br>Note : Please Enter Your Email!';
-}
-    
-}
+
+
 function ValidURL($AccountOfLinkedIn){
     if(!empty( $AccountOfLinkedIn)){
          $AccountOfLinkedIn=trim($AccountOfLinkedIn);
@@ -51,94 +36,105 @@ function validpass($password){
             return 'Valid Password';
         }
  }
- 
+
  if($_SERVER['REQUEST_METHOD']=="POST"){
-    
+     
+     $name =CleanInputs($_POST["name"]);  
      $email =CleanInputs($_POST["email"]);  
      $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
-     
-     if((validEmail($email)=="Valid Email")||(validURL($AccountOfLinkedIn)=="Valid URL")||(validpass($password)=="Valid password")){
-       
-          if(((validURL($AccountOfLinkedIn)=="Valid URL")||(validpass($password)=="Valid password"))){
-               if((validpass($password)=="Valid password")){
-              
-         
-              
-
-           
+     //check the email
+       if(!empty($email)){
         
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                 $s_email = filter_var($email,FILTER_SANITIZE_EMAIL);
+                   if(!filter_var($s_email,FILTER_VALIDATE_EMAIL)){
+                        $errorMessages['email'] = 'error your Email is not valid! ';
+              
+                    }
+        
+             }else{
+                      return $email;
+        
+                  }
         }else{
-              echo '<br>your Email is '.' '.$email .'<br> Your Password is :'.' '.$password.'<br>your LinkdIn Account (URL) is '.' '.$AccountOfLinkedIn;
-        }
+                  $errorMessages['email'] = 'error Email Required!';
+            }
+     
+     
+     if(count($errorMessages) == 0){
+
+        echo 'your name is : '.$name.'<br> your email is :'.$email.'<br> your password is:'.$password.'<br> your LinkedIn Account is:'.$AccountOfLinkedIn;
+     }else{
+
+     // print error messages 
+     foreach($errorMessages as $key => $value){
+
+        echo '* '.$key.' : '.$value.'<br>';
+     }
+
+
     }
 }
         
     
      
     
-}
 
  
 
                     
   ?>
  <!DOCTYPE html>
-
- <html>
+ <html lang="en">
 
      <head>
+         <title>Register</title>
          <meta charset="utf-8">
-         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-         <title></title>
-         <meta name="description" content="">
          <meta name="viewport" content="width=device-width, initial-scale=1">
-         <link rel="stylesheet" href="">
-         <style>
-         body {
-             font-size: 20px;
-             color: blue;
-             font-weight: bolder;
-         }
-
-         input {
-             width: 50%;
-             padding: 10px;
-             margin-right: auto;
-             margin-left: auto;
-             margin-top: 20px;
-             margin-bottom: 20px;
-         }
-
-
-         button {
-             color: #fff;
-             background-color: #000;
-             border: none;
-             padding: 10px;
-             margin-right: 20px;
-             font-size: 20px;
-             margin-bottom: 20px;
-         }
-
-         </style>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
      </head>
 
      <body>
 
+         <div class="container">
+             <h2>Vertical (basic) form</h2>
+             <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
+                 enctype="multipart/form-data">
 
-         <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?> ">
-
-             <input type="text" name="email" placeholder="please enter your email"><br>
-             <input type="text" name="password" placeholder="please enter your Password"><br>
-             <input type="text" name="account" placeholder="please enter URL Of Your LinkedIn Account"><br><br>
-
-             <button type="submit" name="submit" value="submit"> Sumbit</button><span>click me to Send Your Data </span>
-         </form>
+                 <div class="form-group">
+                     <label for="exampleInputEmail1">Name</label>
+                     <input type="text" name="name" class="form-control" id="exampleInputName" aria-describedby=""
+                         placeholder="Enter Name">
+                 </div>
 
 
+                 <div class="form-group">
+                     <label for="exampleInputEmail1">Email address</label>
+                     <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                         aria-describedby="emailHelp" placeholder="Enter email">
+                 </div>
 
-         <script src="" async defer></script>
+                 <div class="form-group">
+                     <label for="exampleInputPassword1">New Password</label>
+                     <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                         placeholder="Password">
+                 </div>
+
+
+                 <div class="form-group">
+                     <label for="exampleInputPassword1">Birth Date</label>
+                     <input type="date" name="Bdate" class="form-control">
+                 </div>
+
+
+
+                 <button type="submit" class="btn btn-primary">Submit</button>
+             </form>
+         </div>
+
      </body>
 
  </html>
