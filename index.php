@@ -18,9 +18,36 @@ function CleanInputs($input)
      //check the file 
      if(!empty($_FILES['uploadedFile']['name'])){ //check if the file is uploded or not
         $PathOfTemp = $_FILES['uploadedFile']['tmp_name']; //path of temp is the name of the file when is uploaded and is putted in the temp folder in the server 
-        $name = $_FILES['uploadedFile']['name']; //the Original name of the file that is in the user's Device. Note: the name is sent and included the extension of the uploaded file
+        $nameOfTheFile = $_FILES['uploadedFile']['name']; //the Original name of the file that is in the user's Device. Note: the name is sent and included the extension of the uploaded file
         $sizeOfTheFile = $_FILES['uploadedFile']['size']; 
         $type = $_FILES['uploadedFile']['type'];//the type of the uploaded file 
+        
+        $array= explode('.',$nameOfTheFile);//separate the name string to get the extension of the uploaded File 
+        $FileExtension = strtolower($array[1]); // get the extension of the uploaded File :)
+
+
+        // to prevent the error when two users or more uploaded file at the same time with the same name as example 
+        //I need to create new name for every file will be uploaded and Must this Name is Unique 
+        $FinalNameOfTheFile = rand().time().'.'.$FileExtension;
+        
+        // Now ,I need to Limit the types of the uploaded Files 
+        $limitedExtensions = ['png','jpg','pdf']; //note : sometimes , some Files are uploaded with extensions Like As Example:JPG,PNG,PDF .and that will be prevent the files with capital letters to be uploaded. to solve with this problem I will make the extension with lower letters by Built-In function => strtolower() 
+        //to check if the uploaded file with the limited Extensions
+        if(in_array($FileExtension,$limitedExtensions)){
+            // the uploaded file extension is in limitedExtensions :) . Now ,I can uploaded the file and get the file from the temp folder in the server to myuploads folder that I previously created in the server 
+            $myDistenationFolder ='./myuploads/';
+            $destinationFile = $myDistenationFolder.$FinalNameOfTheFile;
+            if(move_uploaded_file($PathOfTemp,$destinationFile)){
+                $fileIsUploadedToDesFolder ='File Uploaded';
+                
+            }else{
+                 $errorMessages['file'] = 'error in Upload the file Please try again later !';
+            }
+            
+            
+        }else{
+              $errorMessages['file'] = 'error Extension Is not allowed !';
+        }
          
      }else{
             $errorMessages['file'] = 'error your file is required please uploaded it!';
@@ -81,7 +108,7 @@ function CleanInputs($input)
      
      if(count($errorMessages) == 0){
        //form is valid then print the data 
-        echo 'your name is : '.$name.'<br> your email is :'.$email.'<br> your password is:'.$password.'<br> your LinkedIn Account is:'.$AccountOfLinkedIn;
+        echo 'your name is : '.$name.'<br> your email is :'.$email.'<br> your password is:'.$password.'<br> your LinkedIn Account is:'.$AccountOfLinkedIn.'<br>' .$fileIsUploadedToDesFolder.'<br> and your file path is :'.$nameOfTheFile;
      }else{
 
      // print error messages 
