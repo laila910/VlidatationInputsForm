@@ -16,7 +16,7 @@ function CleanInputs($input)
      $password =CleanInputs($_POST["password"]);  
      $AccountOfLinkedIn=$_POST["account"];
      //check the file 
-     if(!empty($_FILES['uploadedFile']['name'])){ //check if the file is uploded or not
+     if(!empty($_FILES['uploadedFile']['name'])&& isset($_FILES['uploadedFile']['name'])){ //check if the file is uploded or not
         $PathOfTemp = $_FILES['uploadedFile']['tmp_name']; //path of temp is the name of the file when is uploaded and is putted in the temp folder in the server 
         $nameOfTheFile = $_FILES['uploadedFile']['name']; //the Original name of the file that is in the user's Device. Note: the name is sent and included the extension of the uploaded file
         $sizeOfTheFile = $_FILES['uploadedFile']['size']; 
